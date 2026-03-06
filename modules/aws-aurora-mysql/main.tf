@@ -8,11 +8,8 @@ locals {
   udc_name        = format("%s-%s-%s", var.aws_region, var.aurora_mysql_cluster_identifier, local.aws_account_id)
   aws_region      = var.aws_region
   aws_account_id  = module.common_aws-configuration.aws_account_id
-  log_group_audit = format("/aws/rds/cluster/%s/audit", var.aurora_mysql_cluster_identifier)
-  log_group_error = format("/aws/rds/cluster/%s/error", var.aurora_mysql_cluster_identifier)
-  # Combine log groups based on what's enabled in cloudwatch_logs_exports
-  log_group = contains(var.cloudwatch_logs_exports, "error") ? "${local.log_group_audit},${local.log_group_error}" : local.log_group_audit
-}
+  log_group       = format("/aws/rds/cluster/%s/audit", var.aurora_mysql_cluster_identifier)
+  }
 
 module "common_aws-configuration" {
   source = "IBM/common/guardium//modules/aws-configuration"
@@ -21,7 +18,7 @@ module "common_aws-configuration" {
 # Use the dedicated Aurora MySQL CloudWatch registration module
 module "common_aurora-mysql-cloudwatch-registration" {
   count  = var.log_export_type == "Cloudwatch" ? 1 : 0
-  source = "/Users/nida/GuardiumInsights/Terraform/terraform-guardium-common/modules/aurora-mysql-cloudwatch-registration"
+  source = "IBM/common/guardium//modules/aurora-mysql-cloudwatch-registration"
 
   aws_region                = var.aws_region
   aws_account_id            = local.aws_account_id

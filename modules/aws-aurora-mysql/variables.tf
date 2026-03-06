@@ -122,11 +122,6 @@ variable "log_export_type" {
   }
 }
 
-variable "codec_pattern" {
-  type        = string
-  description = "Codec pattern for Aurora MySQL CloudWatch logs"
-  default     = ""
-}
 
 variable "cloudwatch_endpoint" {
   type        = string
