@@ -8,7 +8,6 @@ This example:
 - Connects to an existing Aurora MySQL cluster
 - Registers the cluster with Guardium via Universal Connector
 - Monitors audit logs exported to CloudWatch
-- Supports multiple log types (audit, error, general, slowquery)
 
 ## Prerequisites
 
@@ -72,13 +71,6 @@ terraform plan
 terraform apply
 ```
 
-### 5. Verify in Guardium
-
-1. Log into Guardium Data Protection UI
-2. Navigate to **Universal Connectors**
-3. Verify the connector is created and active
-4. Check that audit logs are being ingested
-
 ## Configuration Options
 
 ### CloudWatch Log Types
@@ -88,12 +80,6 @@ Configure which log types to monitor:
 ```hcl
 # Monitor only audit logs (recommended)
 cloudwatch_logs_exports = ["audit"]
-
-# Monitor audit and error logs
-cloudwatch_logs_exports = ["audit", "error"]
-
-# Monitor all available logs
-cloudwatch_logs_exports = ["audit", "error", "general", "slowquery"]
 ```
 
 ### Universal Connector Settings
@@ -115,9 +101,6 @@ The module monitors CloudWatch log groups with the following naming pattern:
 
 ```
 /aws/rds/cluster/<cluster-identifier>/audit
-/aws/rds/cluster/<cluster-identifier>/error
-/aws/rds/cluster/<cluster-identifier>/general
-/aws/rds/cluster/<cluster-identifier>/slowquery
 ```
 
 ## Outputs
@@ -163,51 +146,6 @@ SHOW VARIABLES LIKE 'server_audit%';
 -- server_audit_events = CONNECT,QUERY (or your configured events)
 ```
 
-## Cleanup
 
-To remove the Guardium connector configuration:
 
-```bash
-terraform destroy
-```
 
-**Note**: This only removes the Guardium connector registration. It does not:
-- Delete the Aurora MySQL cluster
-- Remove CloudWatch logs
-- Delete AWS credentials from Guardium
-
-## Example with Multiple Log Types
-
-```hcl
-module "datastore-audit_aws-aurora-mysql" {
-  source = "IBM/datastore-audit/guardium//modules/aws-aurora-mysql"
-
-  aurora_mysql_cluster_identifier = "production-mysql"
-  cloudwatch_logs_exports         = ["audit", "error"]
-  
-  # ... other required variables
-}
-```
-
-## Cost Considerations
-
-- **CloudWatch Logs**: ~$0.50/GB ingested
-- **CloudWatch Storage**: ~$0.03/GB/month
-- **Data Transfer**: Varies by region
-
-Audit logs can generate significant volume. Consider:
-- Excluding system users (`rdsadmin`)
-- Monitoring only critical events
-- Setting appropriate log retention periods
-
-## Support
-
-For issues or questions:
-- Check Guardium Data Protection documentation
-- Review AWS Aurora MySQL audit logging guides
-- Consult with your Guardium administrator
-
-## License
-
-Copyright IBM Corp. 2025
-SPDX-License-Identifier: Apache-2.0

@@ -17,7 +17,6 @@ module "datastore-audit_aws-aurora-mysql" {
   aurora_mysql_cluster_identifier = var.aurora_mysql_cluster_identifier
   cloudwatch_logs_exports         = var.cloudwatch_logs_exports
   log_export_type                 = var.log_export_type
-  codec_pattern                   = var.codec_pattern
   cloudwatch_endpoint             = var.cloudwatch_endpoint
   use_aws_bundled_ca              = var.use_aws_bundled_ca
 
