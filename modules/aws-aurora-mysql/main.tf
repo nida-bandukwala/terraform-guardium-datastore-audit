@@ -18,7 +18,7 @@ module "common_aws-configuration" {
 # Use the dedicated Aurora MySQL CloudWatch registration module
 module "common_aurora-mysql-cloudwatch-registration" {
   count  = var.log_export_type == "Cloudwatch" ? 1 : 0
-  source = "IBM/common/guardium//modules/aurora-mysql-cloudwatch-registration"
+  source = "/Users/nida/GuardiumInsights/Terraform/terraform-guardium-common/modules/aurora-mysql-cloudwatch-registration"
 
   aws_region                = var.aws_region
   aws_account_id            = local.aws_account_id
@@ -36,7 +36,6 @@ module "common_aurora-mysql-cloudwatch-registration" {
   csv_start_position        = var.csv_start_position
   csv_interval              = var.csv_interval
   csv_event_filter          = var.csv_event_filter
-  codec_pattern             = var.codec_pattern
   cloudwatch_endpoint       = var.cloudwatch_endpoint
   use_aws_bundled_ca        = var.use_aws_bundled_ca
 }
