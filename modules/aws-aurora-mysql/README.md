@@ -8,7 +8,6 @@ This module:
 - Connects to an existing Aurora MySQL cluster
 - Registers the cluster with Guardium via Universal Connector
 - Monitors audit logs exported to CloudWatch
-- Supports multiple log types (audit, error, general, slowquery)
 
 ## Prerequisites
 
@@ -95,7 +94,6 @@ The module monitors CloudWatch log groups with the following naming pattern:
 
 ```
 /aws/rds/cluster/<cluster-identifier>/audit
-/aws/rds/cluster/<cluster-identifier>/error
 ```
 
 ## Notes
@@ -112,13 +110,8 @@ module "aurora_mysql_audit" {
   source = "IBM/datastore-audit/guardium//modules/aws-aurora-mysql"
 
   aurora_mysql_cluster_identifier = "production-mysql"
-  cloudwatch_logs_exports         = ["audit", "error"]
+  cloudwatch_logs_exports         = ["audit"]
   
   # ... other required variables
 }
 ```
-
-## License
-
-Copyright IBM Corp. 2025
-SPDX-License-Identifier: Apache-2.0
