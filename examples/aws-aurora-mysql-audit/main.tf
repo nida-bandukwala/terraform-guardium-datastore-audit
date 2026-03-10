@@ -7,8 +7,8 @@ provider "aws" {
   region = var.aws_region
 }
 
-module "datastore-audit_aws-aurora-mysql-audit" {
-  source = "../../modules/aws-aurora-mysql-audit"
+module "datastore-audit_aws-aurora-mysql" {
+  source = "../../modules/aws-aurora-mysql"
 
   # AWS Configuration
   aws_region = var.aws_region
