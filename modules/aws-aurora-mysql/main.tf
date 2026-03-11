@@ -5,7 +5,7 @@
 #
 
 locals {
-  udc_name       = format("%s-%s-%s", var.aws_region, var.aurora_mysql_cluster_identifier, local.aws_account_id)
+  udc_name       = format("%s%s-%s", var.aws_region, var.aurora_mysql_cluster_identifier, local.aws_account_id)
   aws_region     = var.aws_region
   aws_account_id = module.common_aws-configuration.aws_account_id
   log_group      = format("/aws/rds/cluster/%s/audit", var.aurora_mysql_cluster_identifier)
@@ -15,10 +15,22 @@ module "common_aws-configuration" {
   source = "IBM/common/guardium//modules/aws-configuration"
 }
 
-# Use the dedicated Aurora MySQL CloudWatch registration module
+module "common_aurora-mysql-parameter-group" {
+  source = "/Users/nida/GuardiumInsights/Terraform/terraform-guardium-common/modules/aurora-mysql-parameter-group"
+
+  aurora_mysql_cluster_identifier = var.aurora_mysql_cluster_identifier
+  audit_events                    = var.audit_events
+  audit_incl_users                = var.audit_incl_users
+  audit_excl_users                = var.audit_excl_users
+  cloudwatch_logs_exports         = var.cloudwatch_logs_exports
+  force_failover                  = var.force_failover
+  aws_region                      = var.aws_region
+  tags                            = var.tags
+}
+
 module "common_aurora-mysql-cloudwatch-registration" {
   count  = var.log_export_type == "Cloudwatch" ? 1 : 0
-  source = "IBM/common/guardium//modules/aurora-mysql-cloudwatch-registration"
+  source = "/Users/nida/GuardiumInsights/Terraform/terraform-guardium-common/modules/aurora-mysql-cloudwatch-registration"
 
   aws_region                 = var.aws_region
   aws_account_id             = local.aws_account_id
@@ -38,4 +50,6 @@ module "common_aurora-mysql-cloudwatch-registration" {
   csv_event_filter           = var.csv_event_filter
   cloudwatch_endpoint        = var.cloudwatch_endpoint
   use_aws_bundled_ca         = var.use_aws_bundled_ca
+  prefix                     = var.prefix
+  unmask                     = var.unmask
 }
