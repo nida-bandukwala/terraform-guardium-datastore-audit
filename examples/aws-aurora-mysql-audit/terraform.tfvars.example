@@ -45,7 +45,6 @@ csv_interval = "5"
 csv_event_filter = ""
 prefix = false
 unmask = false
-codec_pattern = "
 
 #----------------------------------------
 # Guardium Connection Details
