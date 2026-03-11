@@ -16,7 +16,7 @@ module "common_aws-configuration" {
 }
 
 module "common_aurora-mysql-parameter-group" {
-  source = "/Users/nida/GuardiumInsights/Terraform/terraform-guardium-common/modules/aurora-mysql-parameter-group"
+  source = "IBM/common/guardium//modules/aurora-mysql-parameter-group"
 
   aurora_mysql_cluster_identifier = var.aurora_mysql_cluster_identifier
   audit_events                    = var.audit_events
@@ -30,7 +30,7 @@ module "common_aurora-mysql-parameter-group" {
 
 module "common_aurora-mysql-cloudwatch-registration" {
   count  = var.log_export_type == "Cloudwatch" ? 1 : 0
-  source = "/Users/nida/GuardiumInsights/Terraform/terraform-guardium-common/modules/aurora-mysql-cloudwatch-registration"
+  source = "IBM/common/guardium//modules/aurora-mysql-cloudwatch-registration"
 
   aws_region                 = var.aws_region
   aws_account_id             = local.aws_account_id
