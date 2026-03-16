@@ -28,6 +28,21 @@ output "cloudwatch_log_group_arn" {
   value       = module.datastore-audit_aws-s3.cloudwatch_log_group_arn
 }
 
+output "s3_bucket_name" {
+  description = "Name of the S3 bucket for CloudTrail logs"
+  value       = module.datastore-audit_aws-s3.s3_bucket_name
+}
+
+output "s3_bucket_arn" {
+  description = "ARN of the S3 bucket for CloudTrail logs"
+  value       = module.datastore-audit_aws-s3.s3_bucket_arn
+}
+
+output "iam_role_arn" {
+  description = "ARN of the IAM role for CloudTrail"
+  value       = module.datastore-audit_aws-s3.iam_role_arn
+}
+
 output "aws_account_id" {
   description = "AWS Account ID"
   value       = module.datastore-audit_aws-s3.aws_account_id
