@@ -33,9 +33,9 @@ module "s3_audit" {
   # CloudTrail Configuration
   enable_cloudtrail = true
   
-  # Monitor specific S3 buckets (or use ["arn:aws:s3:::*/*"] for all buckets)
+  # Monitor specific S3 buckets (or use ["arn:aws:s3"] for all buckets)
   s3_bucket_arns = [
-    "arn:aws:s3:::my-bucket-1/*",
+    "arn:aws:s3:::my-bucket-1/",
     "arn:aws:s3:::my-bucket-2/*"
   ]
   
@@ -88,7 +88,7 @@ module "s3_audit_existing" {
 | existing_cloudwatch_log_group_name | Name of an existing CloudWatch Log Group to use | string | "" | no |
 | force_destroy_bucket | Whether to force destroy the S3 bucket | bool | false | no |
 | cloudwatch_logs_retention_days | Number of days to retain CloudWatch Logs | number | 7 | no |
-| s3_bucket_arns | List of S3 bucket ARNs to monitor | list(string) | ["arn:aws:s3:::*/*"] | no |
+| s3_bucket_arns | List of S3 bucket ARNs to monitor | list(string) | ["arn:aws:s3"] | no |
 | include_global_service_events | Whether to include global service events in CloudTrail | bool | false | no |
 | is_multi_region_trail | Whether the trail is multi-region | bool | false | no |
 | include_management_events | Whether to include management events in CloudTrail | bool | false | no |
@@ -139,7 +139,7 @@ To monitor specific S3 buckets instead of all buckets:
 
 ```hcl
 s3_bucket_arns = [
-  "arn:aws:s3:::my-sensitive-bucket/*",
+  "arn:aws:s3:::my-sensitive-bucket/",
   "arn:aws:s3:::my-audit-bucket/*"
 ]
 ```
@@ -147,7 +147,7 @@ s3_bucket_arns = [
 To monitor all buckets (default):
 
 ```hcl
-s3_bucket_arns = ["arn:aws:s3:::*/*"]
+s3_bucket_arns = ["arn:aws:s3"]
 ```
 
 ## Notes
