@@ -96,6 +96,51 @@ The module monitors CloudWatch log groups with the following naming pattern:
 /aws/rds/cluster/<cluster-identifier>/audit
 ```
 
+## Importing Existing Parameter Groups
+
+If your Aurora MySQL cluster already uses a custom parameter group that you want to manage with Terraform, you can import it into the Terraform state. This prevents Terraform from trying to create a new parameter group and allows you to manage the existing one.
+
+### Steps to Import
+
+1. **Identify the parameter group name** attached to your Aurora MySQL cluster:
+   ```bash
+   aws rds describe-db-clusters --db-cluster-identifier <cluster-identifier> \
+     --query 'DBClusters[0].DBClusterParameterGroup' --output text
+   ```
+
+2. **Import the parameter group** into Terraform state:
+   ```bash
+   terraform import 'module.aurora_mysql_audit.module.common_aurora-mysql-parameter-group.aws_rds_cluster_parameter_group.aurora_mysql_param_group' <parameter-group-name>
+   ```
+
+3. **Run terraform plan** to verify the import was successful and check for any configuration drift:
+   ```bash
+   terraform plan
+   ```
+
+### Example
+
+```bash
+# Get the parameter group name
+aws rds describe-db-clusters --db-cluster-identifier my-aurora-mysql-cluster \
+  --query 'DBClusters[0].DBClusterParameterGroup' --output text
+
+# Output: my-custom-aurora-mysql-pg
+
+# Import the parameter group
+terraform import 'module.aurora_mysql_audit.module.common_aurora-mysql-parameter-group.aws_rds_cluster_parameter_group.aurora_mysql_param_group' my-custom-aurora-mysql-pg
+
+# Verify
+terraform plan
+```
+
+### Important Notes
+
+- The module automatically detects if the cluster is using the default parameter group and creates a new custom one if needed
+- If a custom parameter group already exists, the module will update it with the required audit parameters
+- Importing is only necessary if you want to avoid Terraform recreating an existing custom parameter group
+- After importing, Terraform will manage the parameter group and may update parameters to match the module configuration
+
 ## Notes
 
 - Ensure the Aurora MySQL cluster has `enabled_cloudwatch_logs_exports` configured

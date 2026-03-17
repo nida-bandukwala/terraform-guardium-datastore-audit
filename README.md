@@ -102,7 +102,7 @@ The following diagram illustrates how this module orchestrates the configuration
   - **DocumentDB**: Enables audit and profiler logs via parameter groups
   - **MariaDB RDS**: Enables MariaDB Audit Plugin via option groups
   - **MySQL RDS**: Enables MariaDB Audit Plugin via option groups (compatible with MySQL)
-  - **Aurora MySQL**: Enables MariaDB Audit Plugin via cluster parameter groups for Aurora MySQL clusters
+  - **Aurora MySQL**: Enables server audit logging via cluster parameter groups for Aurora MySQL clusters
   - **Neptune**: Enables audit logs via parameter groups
   - **PostgreSQL RDS**: Configures pgAudit extension for object or session-level auditing
   - **Aurora PostgreSQL**: Configures pgAudit extension for object or session-level auditing with cluster parameter groups
@@ -300,7 +300,7 @@ module "mysql_audit" {
 
 ### AWS Aurora MySQL Audit Configuration
 
-Configure MariaDB Audit Plugin for Aurora MySQL clusters:
+Enables server audit logging via cluster parameter groups:
 
 ```hcl
 module "aurora_mysql_audit" {
