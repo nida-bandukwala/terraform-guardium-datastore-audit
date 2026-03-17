@@ -11,10 +11,7 @@ This example:
 
 ## Prerequisites
 
-1. **Existing Aurora MySQL Cluster** with:
-   - Audit logging enabled via parameter groups
-   - CloudWatch log exports configured
-   - Audit logs being generated
+1. **Existing Aurora MySQL Cluster**
 
 2. **AWS Credentials** configured in Guardium Data Protection
 
