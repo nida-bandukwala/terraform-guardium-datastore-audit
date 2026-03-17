@@ -54,7 +54,7 @@ Alternatively, you can use existing CloudTrail and CloudWatch Log Group resource
 
 **Monitor All S3 Buckets (Default):**
 ```hcl
-s3_bucket_arns = ["arn:aws:s3:::*/*"]
+s3_bucket_arns = ["arn:aws:s3"]
 ```
 
 **Monitor Specific Buckets:**
