@@ -25,7 +25,7 @@ cloudwatch_logs_retention_days = 7
 
 # S3 Buckets to Monitor
 # Monitor all S3 buckets (default)
-s3_bucket_arns = ["arn:aws:s3q"]
+s3_bucket_arns = ["arn:aws:s3"]
 
 # Or monitor specific buckets:
 # s3_bucket_arns = [
