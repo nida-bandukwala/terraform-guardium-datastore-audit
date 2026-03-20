@@ -55,6 +55,22 @@ gdp_mu_host        = "managed-unit-1"
 ```bash
 terraform init
 ```
+## Importing Existing Parameter Groups
+
+If your Aurora MySQL cluster already uses a custom parameter group that you want to manage with Terraform, you can import it into the Terraform state. This prevents Terraform from trying to create a new parameter group and allows you to manage the existing one.
+
+### Steps to Import
+
+1. **Identify the parameter group name** attached to your Aurora MySQL cluster:
+   ```bash
+   aws rds describe-db-clusters --db-cluster-identifier <cluster-identifier> \
+     --query 'DBClusters[0].DBClusterParameterGroup' --output text
+   ```
+
+2. **Import the parameter group** into Terraform state:
+   ```bash
+   terraform import 'module.datastore-audit_aws-aurora-mysql.module.common_aurora-mysql-parameter-group.aws_rds_cluster_parameter_group.aurora_mysql_param_group' <parameter-group-name>
+   ```
 
 ### 3. Plan Deployment
 

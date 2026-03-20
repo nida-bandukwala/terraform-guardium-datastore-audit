@@ -110,7 +110,7 @@ If your Aurora MySQL cluster already uses a custom parameter group that you want
 
 2. **Import the parameter group** into Terraform state:
    ```bash
-   terraform import 'module.aurora_mysql_audit.module.common_aurora-mysql-parameter-group.aws_rds_cluster_parameter_group.aurora_mysql_param_group' <parameter-group-name>
+   terraform import 'module.datastore-audit_aws-aurora-mysql.module.common_aurora-mysql-parameter-group.aws_rds_cluster_parameter_group.aurora_mysql_param_group' <parameter-group-name>
    ```
 
 3. **Run terraform plan** to verify the import was successful and check for any configuration drift:
@@ -128,7 +128,7 @@ aws rds describe-db-clusters --db-cluster-identifier my-aurora-mysql-cluster \
 # Output: my-custom-aurora-mysql-pg
 
 # Import the parameter group
-terraform import 'module.aurora_mysql_audit.module.common_aurora-mysql-parameter-group.aws_rds_cluster_parameter_group.aurora_mysql_param_group' my-custom-aurora-mysql-pg
+terraform import 'module.datastore-audit_aws-aurora-mysql.module.common_aurora-mysql-parameter-group.aws_rds_cluster_parameter_group.aurora_mysql_param_group' my-custom-aurora-mysql-pg
 
 # Verify
 terraform plan
