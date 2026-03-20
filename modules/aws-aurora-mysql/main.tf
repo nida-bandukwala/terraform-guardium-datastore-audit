@@ -9,6 +9,9 @@ locals {
   aws_region     = var.aws_region
   aws_account_id = module.common_aws-configuration.aws_account_id
   log_group      = format("/aws/rds/cluster/%s/audit", var.aurora_mysql_cluster_identifier)
+  
+  # Create a sanitized version of the UDC name for file paths
+  udc_name_safe = trimspace(replace(local.udc_name, "/", "-"))
 }
 
 module "common_aws-configuration" {
@@ -28,28 +31,39 @@ module "common_aurora-mysql-parameter-group" {
   tags                            = var.tags
 }
 
-module "common_aurora-mysql-cloudwatch-registration" {
-  count  = var.log_export_type == "Cloudwatch" ? 1 : 0
-  source = "IBM/common/guardium//modules/aurora-mysql-cloudwatch-registration"
+//////
+// Universal Connector Module - Can be disabled with enable_universal_connector = false
+//////
 
-  aws_region                 = var.aws_region
-  aws_account_id             = local.aws_account_id
-  gdp_client_id              = var.gdp_client_id
-  gdp_client_secret          = var.gdp_client_secret
-  gdp_password               = var.gdp_password
-  gdp_username               = var.gdp_username
-  gdp_server                 = var.gdp_server
-  gdp_port                   = var.gdp_port
-  gdp_mu_host                = var.gdp_mu_host
-  udc_name                   = var.udc_name
-  udc_aws_credential         = var.udc_aws_credential
-  log_group                  = local.log_group
-  enable_universal_connector = var.enable_universal_connector
-  csv_start_position         = var.csv_start_position
-  csv_interval               = var.csv_interval
-  csv_event_filter           = var.csv_event_filter
-  cloudwatch_endpoint        = var.cloudwatch_endpoint
-  use_aws_bundled_ca         = var.use_aws_bundled_ca
-  prefix                     = var.prefix
-  unmask                     = var.unmask
+locals {
+  aurora_mysql_csv = templatefile("${path.module}/templates/auroraMySqlCloudwatch.tpl", {
+    udc_name            = local.udc_name_safe
+    credential_name     = var.udc_aws_credential
+    aws_region          = var.aws_region
+    aws_log_group       = local.log_group
+    aws_account_id      = local.aws_account_id
+    prefix              = var.prefix
+    unmask              = var.unmask
+    start_position      = var.csv_start_position
+    interval            = var.csv_interval
+    event_filter        = var.csv_event_filter
+    description         = "GDP AWS Aurora MySQL connector for ${var.udc_name}"
+    cloudwatch_endpoint = var.cloudwatch_endpoint
+    use_aws_bundled_ca  = var.use_aws_bundled_ca
+  })
+}
+
+module "gdp_connect-datasource-to-uc" {
+  source         = "IBM/gdp/guardium//modules/connect-datasource-to-uc"
+  count          = var.enable_universal_connector && var.log_export_type == "Cloudwatch" ? 1 : 0
+  udc_name       = local.udc_name_safe
+  udc_csv_parsed = local.aurora_mysql_csv
+
+  client_id     = var.gdp_client_id
+  client_secret = var.gdp_client_secret
+  gdp_server    = var.gdp_server
+  gdp_port      = var.gdp_port
+  gdp_username  = var.gdp_username
+  gdp_password  = var.gdp_password
+  gdp_mu_host   = var.gdp_mu_host
 }
