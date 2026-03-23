@@ -197,7 +197,7 @@ resource "aws_cloudtrail" "s3_monitoring" {
 
     data_resource {
       type   = "AWS::S3::Object"
-      values = var.s3_bucket_arns
+      values = length(var.s3_bucket_arns) > 0 ? var.s3_bucket_arns : []
     }
   }
 

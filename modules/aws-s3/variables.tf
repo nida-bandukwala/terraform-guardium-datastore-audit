@@ -65,9 +65,9 @@ variable "cloudwatch_logs_retention_days" {
 }
 
 variable "s3_bucket_arns" {
-  description = "List of S3 bucket ARNs to monitor (use [\"arn:aws:s3\"] for all buckets, or specific bucket ARNs like \"arn:aws:s3:::bucket-name/\" for individual buckets)"
+  description = "List of S3 bucket ARNs to monitor for data events. Use [] (empty list) for all current and future S3 buckets, or specify individual buckets like [\"arn:aws:s3:::bucket-name/\"]"
   type        = list(string)
-  default     = ["arn:aws:s3"]
+  default     = []
 }
 
 variable "include_global_service_events" {
