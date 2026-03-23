@@ -19,9 +19,6 @@ locals {
   # Sanitize name_prefix for AWS resources (replace underscores with hyphens)
   sanitized_name_prefix = replace(var.name_prefix, "_", "-")
 
-  # Sanitize name_prefix for AWS resources (replace underscores with hyphens)
-  sanitized_name_prefix = replace(var.name_prefix, "_", "-")
-
   # CloudWatch and S3 configuration
   cloudwatch_log_group_base            = var.existing_cloudwatch_log_group_name != "" ? var.existing_cloudwatch_log_group_name : "/aws/redshift/cluster/${var.redshift_cluster_identifier}"
   cloudwatch_log_group_connectionlog   = "${local.cloudwatch_log_group_base}/connectionlog"
