@@ -220,6 +220,7 @@ locals {
     aws_region         = var.aws_region
     log_group          = local.cloudwatch_log_group_name
     aws_account_id     = module.aws_configuration.aws_account_id
+    cluster_name       = local.cloudtrail_name
     start_position     = var.udc_start_position
     interval           = var.udc_interval
     event_filter       = var.udc_event_filter
