@@ -22,7 +22,7 @@ force_destroy_bucket = false  # Set to true to allow bucket deletion with object
 
 # S3 Buckets to Monitor
 # Monitor all S3 buckets (default)
-s3_bucket_arns = []
+s3_bucket_arns = ["arn:aws:s3"]
 
 # Or monitor specific buckets:
 # s3_bucket_arns = [

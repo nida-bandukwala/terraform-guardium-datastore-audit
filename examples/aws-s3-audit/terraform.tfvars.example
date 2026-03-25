@@ -24,8 +24,8 @@ force_destroy_bucket = false  # Set to true to allow bucket deletion with object
 cloudwatch_logs_retention_days = 7
 
 # S3 Buckets to Monitor
-# Monitor all S3 buckets (default)
-s3_bucket_arns = []
+# Use ["arn:aws:s3"] to monitor ALL S3 buckets in the account (default)
+s3_bucket_arns = ["arn:aws:s3"]
 
 # Or monitor specific buckets:
 # s3_bucket_arns = [
