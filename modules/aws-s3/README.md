@@ -62,6 +62,7 @@ module "s3_audit_existing" {
   aws_region                         = "us-east-1"
   existing_cloudtrail_name           = "my-existing-trail"
   existing_cloudwatch_log_group_name = "/aws/cloudtrail/my-trail"
+  enable_cloudtrail = false
   
   # Guardium Configuration
   gdp_server        = "guardium.example.com"

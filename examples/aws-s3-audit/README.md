@@ -67,8 +67,8 @@ s3_bucket_arns = [
 
 ### CloudTrail Configuration
 
-- **New CloudTrail**: Set `enable_cloudtrail = true` and leave `existing_cloudtrail_name` empty
-- **Existing CloudTrail**: Set `existing_cloudtrail_name` to use an existing trail
+- **New CloudTrail**: Set `enable_cloudtrail = true` and comment out `existing_cloudtrail_name` and `existing_cloudwatch_log_group_name`
+- **Existing CloudTrail**: Set `existing_cloudtrail_name` to use an existing trail and set `enable_cloudtrail = false` 
 - **Existing CloudWatch Log Group**: Set `existing_cloudwatch_log_group_name` to use an existing log group
 
 ### Event Filtering
